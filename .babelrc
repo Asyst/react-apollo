@@ -1,0 +1,14 @@
+{
+    "presets": [
+        "env",
+        "stage-2",
+        "react"
+    ],
+    "plugins": [
+        "transform-runtime",
+        "react-loadable/babel",
+        "dynamic-import-node",
+        ["transform-decorators-legacy"]
+        // ["transform-class-properties", { "spec": true }]
+    ]
+}
