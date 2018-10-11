@@ -1,4 +1,5 @@
 import Post from '../post/post.model';
+import Comment from '../comment/comment.model';
 
 const books = [
     {
@@ -14,6 +15,7 @@ const books = [
 const resolvers = {
     Query: {
         posts: async () => await Post.find().exec(),
+        comments: async () => await Comment.find().exec(),
         books: () => books,
     },
 };
