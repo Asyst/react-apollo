@@ -2,7 +2,6 @@ node_modules/
 .elasticbeanstalk/
 .gitignore
 build/assets/images/
-uploads/
 
 # Elastic Beanstalk Files
 
