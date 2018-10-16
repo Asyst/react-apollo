@@ -46,8 +46,11 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "@babel/runtime": "7.0.0-beta.55",
+    "apollo-boost": "^0.1.16",
     "apollo-server-hapi": "^2.0.0-rc.10",
+    "axios": "^0.18.0",
     "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.0",
     "graphql-tools": "^4.0.0",
     "hapi": "^17.5.3",
     "hapi-auth-basic": "^5.0.0",
