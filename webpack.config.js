@@ -2,7 +2,8 @@ const
     webpack = require('webpack'),
     path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    ReactLoadablePlugin = require('react-loadable/webpack').ReactLoadablePlugin;
+    HtmlWebpackPlugin = require('html-webpack-plugin');
+    // ReactLoadablePlugin = require('react-loadable/webpack').ReactLoadablePlugin;
     // HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -99,10 +100,14 @@ module.exports = {
                 IS_BROWSER: "true"
             }
         }),
-        new ExtractTextPlugin('assets/css/bundle.css'),
-        new ReactLoadablePlugin({
-            filename: './build/react-loadable.json',
-        })
+        // new HtmlWebpackPlugin({
+        //     filename: 'index.html',
+        //     template: './public/index.html'
+        // }),
+        new ExtractTextPlugin('assets/css/bundle.css')
+        // new ReactLoadablePlugin({
+        //     filename: './build/react-loadable.json',
+        // })
         // new OptimizeCss({
         //     assetNameRegExp: /\.optimize\.css$/g,
         //     cssProcessor: require('cssnano'),
