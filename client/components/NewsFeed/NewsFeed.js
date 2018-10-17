@@ -15,8 +15,9 @@ class NewsFeed extends Component {
         return <Query
             query={gql`
                     {
-                        books {
+                        posts {
                             title
+                            author
                         }
                     }
                 `}
@@ -24,6 +25,14 @@ class NewsFeed extends Component {
             {({ loading, error, data }) => (
                     <div className="NewsFeed">
                         <h1>NewsFeed</h1>
+                        <ul className="books-list">
+                            { !loading && data.posts.map((post, idx) => 
+                                <li key={ idx }>
+                                    { post.title }
+                                    <mark>{ post.author }</mark>
+                                </li>) 
+                            }
+                        </ul>
                         <DevTools />
                     </div>
                 )

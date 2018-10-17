@@ -230,7 +230,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class;
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n                    {\n                        books {\n                            title\n                        }\n                    }\n                '], ['\n                    {\n                        books {\n                            title\n                        }\n                    }\n                ']);
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n                    {\n                        posts {\n                            title\n                            author\n                        }\n                    }\n                '], ['\n                    {\n                        posts {\n                            title\n                            author\n                        }\n                    }\n                ']);
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
@@ -279,6 +279,22 @@ var NewsFeed = (_dec = (0, _mobxReact.inject)('newsFeedStore'), _dec(_class = fu
                             'h1',
                             null,
                             'NewsFeed'
+                        ),
+                        React.createElement(
+                            'ul',
+                            { className: 'books-list' },
+                            !loading && data.posts.map(function (post, idx) {
+                                return React.createElement(
+                                    'li',
+                                    { key: idx },
+                                    post.title,
+                                    React.createElement(
+                                        'mark',
+                                        null,
+                                        post.author
+                                    )
+                                );
+                            })
                         ),
                         React.createElement(_mobxReactDevtools2.default, null)
                     );
@@ -425,7 +441,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.React = _react2.default;
 
 var client = new _apolloBoost2.default({
-    uri: 'https://nx9zvp49q7.lp.gql.zone/graphql',
+    uri: window.location.origin + '/graphql',
     clientState: {
         defaults: _resolvers.defaults,
         resolvers: _resolvers.resolvers

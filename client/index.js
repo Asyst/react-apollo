@@ -13,7 +13,7 @@ import App from './App';
 window.React = React;
 
 const client = new ApolloClient({
-    uri: `https://nx9zvp49q7.lp.gql.zone/graphql`,
+    uri: `${window.location.origin}/graphql`,
     clientState: {
       defaults,
       resolvers
