@@ -15,6 +15,7 @@ const books = [
 const resolvers = {
     Query: {
         posts: async () => await Post.find().exec(),
+        post: async (obj, args, context, info) => await Post.findById(args.id).exec(),
         comments: async () => await Comment.find().exec(),
         books: () => books,
     },

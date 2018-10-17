@@ -12,6 +12,14 @@ class NewsFeedStore {
             .then(response => console.log('Posts fetch res -> ', response))
             .finally(action('fetch complete', () => this.isLoading = false))
     }
+
+    get posts() {
+        return this.posts;
+    }
+
+    set posts(posts) {
+        this.posts = posts;
+    }
 }
 
 export default new NewsFeedStore();

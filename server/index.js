@@ -51,6 +51,19 @@ async function StartServer() {
         }
     });
 
+    app.route({
+        method: 'GET',
+        path: '/assets/css/bundle.css',
+        handler: {
+            file: {
+                path: './build/assets/css/bundle.css',
+                filename: 'bundle.css', // override the filename in the Content-Disposition header
+                mode: 'attachment', // specify the Content-Disposition is an attachment
+                lookupCompressed: true // allow looking for script.js.gz if the request allows it
+            }
+        }
+    });
+
     // app.route({
     //     method: 'GET',
     //     path: '/bundle.js',

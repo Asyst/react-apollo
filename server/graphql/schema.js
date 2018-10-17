@@ -10,7 +10,7 @@ const typeDefs = gql`
   }
 
   type Post {
-        id: String
+        id: ID!
         author: String
         date: String
         title: String,
@@ -31,6 +31,7 @@ const typeDefs = gql`
   type Query {
     books: [Book]
     posts: [Post]
+    post(id: ID!): Post
     comments: [Comment]
   }
 `;

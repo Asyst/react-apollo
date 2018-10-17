@@ -1,0 +1,16 @@
+/* News Feed */
+.card-container {
+    height: 88vh;
+    overflow: auto;
+}
+.card-container::-webkit-scrollbar {
+    display: none;
+}
+
+.NewsFeed .card-title {
+    margin: 0 0 14px;
+    font-size: 16px;
+}
+.NewsFeed .card-title a {
+    color: #fff;
+}
