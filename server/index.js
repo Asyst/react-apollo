@@ -21,7 +21,7 @@ async function StartServer() {
     const server = new ApolloServer({ typeDefs, resolvers });
 
     const app = new Hapi.server({
-        port: 4000,
+        port: 4001,
         host: 'localhost'
     });
 
@@ -64,15 +64,18 @@ async function StartServer() {
         }
     });
 
-    // app.route({
-    //     method: 'GET',
-    //     path: '/bundle.js',
-    //     handler: (request, h) => {
-
-    //         return h.file('/bundle.js')
-    //             .header('content-type', 'application/javascript');
-    //     }
-    // });
+    app.route({
+        method: 'GET',
+        path: '/assets/images/logo/logo.png',
+        handler: {
+            file: {
+                path: './build/assets/images/logo/logo.png',
+                filename: 'logo.png', // override the filename in the Content-Disposition header
+                mode: 'attachment', // specify the Content-Disposition is an attachment
+                lookupCompressed: true // allow looking for script.js.gz if the request allows it
+            }
+        }
+    });
 
     app.route({
         method: 'GET',
@@ -84,7 +87,6 @@ async function StartServer() {
             // return 'hello !';
         }
     });
-  
 
     await server.installSubscriptionHandlers(app.listener);
 

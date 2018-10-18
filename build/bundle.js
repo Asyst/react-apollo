@@ -130,11 +130,10 @@ var _NewsFeed = __webpack_require__(/*! ./components/NewsFeed */ "./client/compo
 
 var _NewsFeed2 = _interopRequireDefault(_NewsFeed);
 
-var _Post = __webpack_require__(/*! ./components/Post */ "./client/components/Post/Post.js");
-
-var _Post2 = _interopRequireDefault(_Post);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import Post from './components/Post';
+
 
 var App = (0, _reactRouterDom.withRouter)(_class = function (_Component) {
     (0, _inherits3.default)(App, _Component);
@@ -154,8 +153,7 @@ var App = (0, _reactRouterDom.withRouter)(_class = function (_Component) {
                     _reactRouterDom.Switch,
                     null,
                     React.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _NewsFeed2.default }),
-                    React.createElement(_reactRouterDom.Route, { path: '/feed', component: _NewsFeed2.default }),
-                    React.createElement(_reactRouterDom.Route, { path: '/:id', component: _Post2.default })
+                    React.createElement(_reactRouterDom.Route, { path: '/feed', component: _NewsFeed2.default })
                 )
             );
         }
@@ -164,6 +162,47 @@ var App = (0, _reactRouterDom.withRouter)(_class = function (_Component) {
 }(_react.Component)) || _class;
 
 exports.default = App;
+
+/***/ }),
+
+/***/ "./client/components/BreadCrumbs/BreadCrumbs.js":
+/*!******************************************************!*\
+  !*** ./client/components/BreadCrumbs/BreadCrumbs.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+        value: true
+});
+
+var _breadcrumb = __webpack_require__(/*! antd/es/breadcrumb */ "./node_modules/antd/es/breadcrumb/index.js");
+
+var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
+
+__webpack_require__(/*! antd/es/breadcrumb/style/css */ "./node_modules/antd/es/breadcrumb/style/css.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BreadCrumbs = function BreadCrumbs(_ref) {
+        var crumbs = _ref.crumbs;
+        return React.createElement(
+                _breadcrumb2.default,
+                { style: { margin: '16px 0' } },
+                crumbs.map(function (crumb) {
+                        return crumb !== "" && React.createElement(
+                                _breadcrumb2.default.Item,
+                                { key: crumb },
+                                crumb
+                        );
+                })
+        );
+};
+
+exports.default = BreadCrumbs;
 
 /***/ }),
 
@@ -180,10 +219,6 @@ exports.default = App;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _layout = __webpack_require__(/*! antd/es/layout */ "./node_modules/antd/es/layout/index.js");
-
-var _layout2 = _interopRequireDefault(_layout);
 
 var _getPrototypeOf = __webpack_require__(/*! babel-runtime/core-js/object/get-prototype-of */ "./node_modules/babel-runtime/core-js/object/get-prototype-of.js");
 
@@ -205,6 +240,10 @@ var _inherits2 = __webpack_require__(/*! babel-runtime/helpers/inherits */ "./no
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _layout = __webpack_require__(/*! antd/es/layout */ "./node_modules/antd/es/layout/index.js");
+
+var _layout2 = _interopRequireDefault(_layout);
+
 __webpack_require__(/*! antd/es/layout/style/css */ "./node_modules/antd/es/layout/style/css.js");
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -213,35 +252,66 @@ var _MainHeader = __webpack_require__(/*! ../MainHeader */ "./client/components/
 
 var _MainHeader2 = _interopRequireDefault(_MainHeader);
 
+var _BreadCrumbs = __webpack_require__(/*! ../BreadCrumbs */ "./client/components/BreadCrumbs/BreadCrumbs.js");
+
+var _BreadCrumbs2 = _interopRequireDefault(_BreadCrumbs);
+
 var _SideBar = __webpack_require__(/*! ../SideBar */ "./client/components/SideBar/SideBar.js");
 
 var _SideBar2 = _interopRequireDefault(_SideBar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var Content = _layout2.default.Content;
+
 var MainLayout = function (_Component) {
     (0, _inherits3.default)(MainLayout, _Component);
 
     function MainLayout() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         (0, _classCallCheck3.default)(this, MainLayout);
-        return (0, _possibleConstructorReturn3.default)(this, (MainLayout.__proto__ || (0, _getPrototypeOf2.default)(MainLayout)).apply(this, arguments));
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = MainLayout.__proto__ || (0, _getPrototypeOf2.default)(MainLayout)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            collapsed: false
+        }, _this.toggle = function () {
+            _this.setState({
+                collapsed: !_this.state.collapsed
+            });
+        }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
     }
 
     (0, _createClass3.default)(MainLayout, [{
         key: 'render',
         value: function render() {
-            var children = this.props.children;
+            var collapsed = this.state.collapsed;
+            var _props = this.props,
+                children = _props.children,
+                crumbs = _props.crumbs;
 
 
             return React.createElement(
                 _layout2.default,
                 null,
-                React.createElement(_MainHeader2.default, null),
+                React.createElement(_MainHeader2.default, {
+                    collapsed: collapsed,
+                    toggle: this.toggle }),
                 React.createElement(
-                    _layout2.default,
-                    null,
-                    React.createElement(_SideBar2.default, null),
-                    children
+                    Content,
+                    { style: { padding: '0 24px' } },
+                    React.createElement(_BreadCrumbs2.default, { crumbs: crumbs }),
+                    React.createElement(
+                        _layout2.default,
+                        null,
+                        React.createElement(_SideBar2.default, { collapsed: collapsed }),
+                        children
+                    )
                 )
             );
         }
@@ -250,6 +320,17 @@ var MainLayout = function (_Component) {
 }(_react.Component);
 
 exports.default = MainLayout;
+
+/***/ }),
+
+/***/ "./client/components/MainHeader/MainHeader.css":
+/*!*****************************************************!*\
+  !*** ./client/components/MainHeader/MainHeader.css ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -267,6 +348,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _icon = __webpack_require__(/*! antd/es/icon */ "./node_modules/antd/es/icon/index.js");
+
+var _icon2 = _interopRequireDefault(_icon);
+
 var _menu = __webpack_require__(/*! antd/es/menu */ "./node_modules/antd/es/menu/index.js");
 
 var _menu2 = _interopRequireDefault(_menu);
@@ -275,46 +360,66 @@ var _layout = __webpack_require__(/*! antd/es/layout */ "./node_modules/antd/es/
 
 var _layout2 = _interopRequireDefault(_layout);
 
+__webpack_require__(/*! antd/es/icon/style/css */ "./node_modules/antd/es/icon/style/css.js");
+
 __webpack_require__(/*! antd/es/menu/style/css */ "./node_modules/antd/es/menu/style/css.js");
 
 __webpack_require__(/*! antd/es/layout/style/css */ "./node_modules/antd/es/layout/style/css.js");
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
+__webpack_require__(/*! ./MainHeader.css */ "./client/components/MainHeader/MainHeader.css");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Header = _layout2.default.Header;
 
 
-var MainHeader = function MainHeader() {
+var MainHeader = function MainHeader(_ref) {
+    var collapsed = _ref.collapsed,
+        toggle = _ref.toggle;
     return React.createElement(
         Header,
-        { className: 'header' },
-        React.createElement('div', { className: 'logo' }),
+        {
+            className: 'header',
+            style: { position: 'fixed', zIndex: 1, width: '100%', padding: '0 24px' } },
         React.createElement(
-            _menu2.default,
-            {
-                theme: 'dark',
-                mode: 'horizontal',
-                defaultSelectedKeys: ['2'],
-                style: { lineHeight: '64px' }
-            },
+            'div',
+            { style: { display: 'flex', width: '100%' } },
             React.createElement(
-                _menu2.default.Item,
-                { key: '1' },
-                'nav 1'
+                'div',
+                { className: 'logo' },
+                React.createElement('img', { src: 'assets/images/logo/logo.png' })
             ),
             React.createElement(
-                _menu2.default.Item,
-                { key: '2' },
-                'nav 2'
-            ),
-            React.createElement(
-                _menu2.default.Item,
-                { key: '3' },
-                'nav 3'
+                _menu2.default,
+                {
+                    theme: 'dark',
+                    mode: 'horizontal',
+                    defaultSelectedKeys: ['2'],
+                    style: { lineHeight: '64px' } },
+                React.createElement(
+                    _menu2.default.Item,
+                    { key: '1' },
+                    'nav 1'
+                ),
+                React.createElement(
+                    _menu2.default.Item,
+                    { key: '2' },
+                    'nav 2'
+                ),
+                React.createElement(
+                    _menu2.default.Item,
+                    { key: '3' },
+                    'nav 3'
+                )
             )
-        )
+        ),
+        React.createElement(_icon2.default, {
+            className: 'trigger',
+            type: collapsed ? 'menu-unfold' : 'menu-fold',
+            style: { color: '#fff', fontSize: '20px' },
+            onClick: toggle })
     );
 };
 
@@ -359,10 +464,6 @@ var _avatar = __webpack_require__(/*! antd/es/avatar */ "./node_modules/antd/es/
 
 var _avatar2 = _interopRequireDefault(_avatar);
 
-var _breadcrumb = __webpack_require__(/*! antd/es/breadcrumb */ "./node_modules/antd/es/breadcrumb/index.js");
-
-var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
-
 var _getPrototypeOf = __webpack_require__(/*! babel-runtime/core-js/object/get-prototype-of */ "./node_modules/babel-runtime/core-js/object/get-prototype-of.js");
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -403,8 +504,6 @@ __webpack_require__(/*! antd/es/icon/style/css */ "./node_modules/antd/es/icon/s
 
 __webpack_require__(/*! antd/es/avatar/style/css */ "./node_modules/antd/es/avatar/style/css.js");
 
-__webpack_require__(/*! antd/es/breadcrumb/style/css */ "./node_modules/antd/es/breadcrumb/style/css.js");
-
 __webpack_require__(/*! antd/es/card/style/css */ "./node_modules/antd/es/card/style/css.js");
 
 __webpack_require__(/*! antd/es/layout/style/css */ "./node_modules/antd/es/layout/style/css.js");
@@ -422,6 +521,14 @@ var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 var _MainLayout = __webpack_require__(/*! ../Layout/MainLayout */ "./client/components/Layout/MainLayout.js");
 
 var _MainLayout2 = _interopRequireDefault(_MainLayout);
+
+var _BreadCrumbs = __webpack_require__(/*! ../BreadCrumbs */ "./client/components/BreadCrumbs/BreadCrumbs.js");
+
+var _BreadCrumbs2 = _interopRequireDefault(_BreadCrumbs);
+
+var _Post = __webpack_require__(/*! ../Post */ "./client/components/Post/Post.js");
+
+var _Post2 = _interopRequireDefault(_Post);
 
 __webpack_require__(/*! antd/lib/card/style/css */ "./node_modules/antd/lib/card/style/css.js");
 
@@ -446,6 +553,9 @@ var NewsFeed = function (_Component) {
     (0, _createClass3.default)(NewsFeed, [{
         key: 'render',
         value: function render() {
+            var match = this.props.match;
+
+
             return React.createElement(
                 _reactApollo.Query,
                 { query: GET_POSTS },
@@ -455,87 +565,71 @@ var NewsFeed = function (_Component) {
                         data = _ref.data,
                         client = _ref.client;
 
-                    console.log('client -> ', client);
+                    var crumbs = match.path.split('/');
 
                     return React.createElement(
-                        _MainLayout2.default,
+                        _react.Fragment,
                         null,
-                        React.createElement(
-                            _layout2.default,
-                            { style: { padding: '0 24px 24px' } },
-                            React.createElement(
-                                _breadcrumb2.default,
-                                { style: { margin: '16px 0' } },
-                                React.createElement(
-                                    _breadcrumb2.default.Item,
-                                    null,
-                                    'Home'
-                                ),
-                                React.createElement(
-                                    _breadcrumb2.default.Item,
-                                    null,
-                                    'List'
-                                ),
-                                React.createElement(
-                                    _breadcrumb2.default.Item,
-                                    null,
-                                    'App'
-                                )
-                            ),
-                            React.createElement(
-                                Content,
-                                { style: { background: '#fff', padding: 24, margin: 0, minHeight: 280 } },
-                                React.createElement(
-                                    'div',
-                                    { className: 'NewsFeed' },
+                        React.createElement(_reactRouterDom.Route, { exact: true, path: match.url, render: function render() {
+                                return React.createElement(
+                                    _MainLayout2.default,
+                                    { crumbs: crumbs },
                                     React.createElement(
-                                        'h1',
-                                        null,
-                                        'NewsFeed'
-                                    ),
-                                    React.createElement(
-                                        'div',
-                                        { className: 'card-container' },
-                                        loading ? React.createElement(
-                                            _card2.default,
-                                            { style: { width: 300, marginTop: 16 }, loading: loading },
-                                            React.createElement(Meta, {
-                                                avatar: React.createElement(_avatar2.default, { src: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' }),
-                                                title: 'Card title',
-                                                description: 'This is the description'
-                                            })
-                                        ) : data.posts.map(function (post, idx) {
-                                            return React.createElement(
-                                                _card2.default,
-                                                {
-                                                    key: idx,
-                                                    style: {
-                                                        margin: '0 0 14px',
-                                                        width: 500
-                                                    },
-                                                    loading: loading,
-                                                    cover: !loading && React.createElement('img', { alt: post.title, src: post.image }),
-                                                    actions: !loading && [React.createElement(_icon2.default, { type: 'like' }), React.createElement(_icon2.default, { type: 'message' }), React.createElement(_icon2.default, { type: 'share-alt' })]
-                                                },
-                                                React.createElement(
-                                                    _skeleton2.default,
-                                                    { loading: loading, active: true, avatar: true },
+                                        Content,
+                                        { style: { background: '#fff', padding: 24, margin: 0, minHeight: 280 } },
+                                        React.createElement(
+                                            'div',
+                                            { className: 'NewsFeed' },
+                                            React.createElement(
+                                                'h1',
+                                                null,
+                                                'NewsFeed'
+                                            ),
+                                            React.createElement(
+                                                'div',
+                                                { className: 'card-container' },
+                                                loading ? React.createElement(
+                                                    _card2.default,
+                                                    { style: { width: 300, marginTop: 16 }, loading: loading },
                                                     React.createElement(Meta, {
                                                         avatar: React.createElement(_avatar2.default, { src: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' }),
-                                                        title: React.createElement(
-                                                            _reactRouterDom.NavLink,
-                                                            { to: '/' + post.id },
-                                                            post.title
-                                                        ),
-                                                        description: post.text
+                                                        title: 'Card title',
+                                                        description: 'This is the description'
                                                     })
-                                                )
-                                            );
-                                        })
+                                                ) : data.posts.map(function (post, idx) {
+                                                    return React.createElement(
+                                                        _card2.default,
+                                                        {
+                                                            key: idx,
+                                                            style: {
+                                                                margin: '0 0 14px',
+                                                                width: '100%'
+                                                            },
+                                                            loading: loading,
+                                                            cover: !loading && React.createElement('img', { alt: post.title, src: post.image }),
+                                                            actions: !loading && [React.createElement(_icon2.default, { type: 'like' }), React.createElement(_icon2.default, { type: 'message' }), React.createElement(_icon2.default, { type: 'share-alt' })]
+                                                        },
+                                                        React.createElement(
+                                                            _skeleton2.default,
+                                                            { loading: loading, active: true, avatar: true },
+                                                            React.createElement(Meta
+                                                            // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                                            , { title: React.createElement(
+                                                                    _reactRouterDom.Link,
+                                                                    { to: '/feed/' + post.id },
+                                                                    post.title
+                                                                ),
+                                                                description: post.text
+                                                            })
+                                                        )
+                                                    );
+                                                })
+                                            )
+                                        )
                                     )
-                                )
-                            )
-                        )
+                                );
+                            } }),
+                        React.createElement(_reactRouterDom.Route, { path: '/feed/:id', component: _Post2.default })
                     );
                 }
             );
@@ -545,6 +639,17 @@ var NewsFeed = function (_Component) {
 }(_react.Component);
 
 exports.default = NewsFeed;
+
+/***/ }),
+
+/***/ "./client/components/Post/Post.css":
+/*!*****************************************!*\
+  !*** ./client/components/Post/Post.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -565,10 +670,6 @@ Object.defineProperty(exports, "__esModule", {
 var _skeleton = __webpack_require__(/*! antd/es/skeleton */ "./node_modules/antd/es/skeleton/index.js");
 
 var _skeleton2 = _interopRequireDefault(_skeleton);
-
-var _breadcrumb = __webpack_require__(/*! antd/es/breadcrumb */ "./node_modules/antd/es/breadcrumb/index.js");
-
-var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
 
 var _getPrototypeOf = __webpack_require__(/*! babel-runtime/core-js/object/get-prototype-of */ "./node_modules/babel-runtime/core-js/object/get-prototype-of.js");
 
@@ -606,8 +707,6 @@ var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    query Post($i
 
 __webpack_require__(/*! antd/es/skeleton/style/css */ "./node_modules/antd/es/skeleton/style/css.js");
 
-__webpack_require__(/*! antd/es/breadcrumb/style/css */ "./node_modules/antd/es/breadcrumb/style/css.js");
-
 __webpack_require__(/*! antd/es/layout/style/css */ "./node_modules/antd/es/layout/style/css.js");
 
 __webpack_require__(/*! antd/es/menu/style/css */ "./node_modules/antd/es/menu/style/css.js");
@@ -624,7 +723,13 @@ var _MainLayout = __webpack_require__(/*! ../Layout/MainLayout */ "./client/comp
 
 var _MainLayout2 = _interopRequireDefault(_MainLayout);
 
+var _BreadCrumbs = __webpack_require__(/*! ../BreadCrumbs */ "./client/components/BreadCrumbs/BreadCrumbs.js");
+
+var _BreadCrumbs2 = _interopRequireDefault(_BreadCrumbs);
+
 var _protobufjs = __webpack_require__(/*! protobufjs */ "./node_modules/protobufjs/index.js");
+
+__webpack_require__(/*! ./Post.css */ "./client/components/Post/Post.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -646,12 +751,14 @@ var Post = function (_Component) {
     (0, _createClass3.default)(Post, [{
         key: 'render',
         value: function render() {
-            var params = this.props.match.params;
+            var match = this.props.match;
 
+
+            console.log('Post render -> ', this.props);
 
             return React.createElement(
                 _reactApollo.Query,
-                { query: GET_POST, variables: { id: params.id } },
+                { query: GET_POST, variables: { id: match.params.id } },
                 function (_ref) {
                     var loading = _ref.loading,
                         error = _ref.error,
@@ -660,55 +767,34 @@ var Post = function (_Component) {
                     var post = data.post;
 
 
+                    var crumbs = match.path.split('/');
+
                     return React.createElement(
                         _MainLayout2.default,
-                        null,
+                        { crumbs: crumbs },
                         React.createElement(
-                            _layout2.default,
-                            { style: { padding: '0 24px 24px' } },
+                            Content,
+                            { style: { background: '#fff', padding: 24, margin: 0, minHeight: 280 } },
                             React.createElement(
-                                _breadcrumb2.default,
-                                { style: { margin: '16px 0' } },
+                                'div',
+                                { className: 'Post' },
                                 React.createElement(
-                                    _breadcrumb2.default.Item,
-                                    null,
-                                    'Home'
-                                ),
-                                React.createElement(
-                                    _breadcrumb2.default.Item,
-                                    null,
-                                    'List'
-                                ),
-                                React.createElement(
-                                    _breadcrumb2.default.Item,
-                                    null,
-                                    'App'
-                                )
-                            ),
-                            React.createElement(
-                                Content,
-                                { style: { background: '#fff', padding: 24, margin: 0, minHeight: 280 } },
-                                React.createElement(
-                                    'div',
-                                    { className: 'Post' },
+                                    _skeleton2.default,
+                                    { active: true, loading: loading },
                                     React.createElement(
-                                        _skeleton2.default,
-                                        { active: true, loading: loading },
-                                        React.createElement(
-                                            'h1',
-                                            null,
-                                            !loading && post.title
-                                        ),
-                                        React.createElement(
-                                            'figure',
-                                            null,
-                                            React.createElement('img', { src: !loading && post.image })
-                                        ),
-                                        React.createElement(
-                                            'p',
-                                            null,
-                                            !loading && post.text
-                                        )
+                                        'h1',
+                                        null,
+                                        !loading && post.title
+                                    ),
+                                    React.createElement(
+                                        'figure',
+                                        null,
+                                        React.createElement('img', { src: !loading && post.image })
+                                    ),
+                                    React.createElement(
+                                        'p',
+                                        null,
+                                        !loading && post.text
                                     )
                                 )
                             )
@@ -763,102 +849,110 @@ var SubMenu = _menu2.default.SubMenu;
 var Sider = _layout2.default.Sider;
 
 
-var SideBar = function SideBar() {
+var SideBar = function SideBar(_ref) {
+    var collapsed = _ref.collapsed;
     return React.createElement(
         Sider,
-        { width: 200, style: { background: '#fff' } },
+        {
+            trigger: null,
+            breakpoint: "lg",
+            collapsedWidth: "0",
+            collapsible: true,
+            collapsed: collapsed,
+            width: 200,
+            style: { padding: '18px 0 0', background: '#fff' } },
         React.createElement(
             _menu2.default,
             {
-                mode: 'inline',
+                mode: "inline",
                 defaultSelectedKeys: ['1'],
                 defaultOpenKeys: ['sub1'],
-                style: { height: '100%', borderRight: 0 } },
+                style: { height: '100%' } },
             React.createElement(
                 SubMenu,
-                { key: 'sub1', title: React.createElement(
-                        'span',
+                { key: "sub1", title: React.createElement(
+                        "span",
                         null,
-                        React.createElement(_icon2.default, { type: 'user' }),
-                        'subnav 1'
+                        React.createElement(_icon2.default, { type: "user" }),
+                        "subnav 1"
                     ) },
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '1' },
-                    'option1'
+                    { key: "1" },
+                    "option1"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '2' },
-                    'option2'
+                    { key: "2" },
+                    "option2"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '3' },
-                    'option3'
+                    { key: "3" },
+                    "option3"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '4' },
-                    'option4'
+                    { key: "4" },
+                    "option4"
                 )
             ),
             React.createElement(
                 SubMenu,
-                { key: 'sub2', title: React.createElement(
-                        'span',
+                { key: "sub2", title: React.createElement(
+                        "span",
                         null,
-                        React.createElement(_icon2.default, { type: 'laptop' }),
-                        'subnav 2'
+                        React.createElement(_icon2.default, { type: "laptop" }),
+                        "subnav 2"
                     ) },
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '5' },
-                    'option5'
+                    { key: "5" },
+                    "option5"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '6' },
-                    'option6'
+                    { key: "6" },
+                    "option6"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '7' },
-                    'option7'
+                    { key: "7" },
+                    "option7"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '8' },
-                    'option8'
+                    { key: "8" },
+                    "option8"
                 )
             ),
             React.createElement(
                 SubMenu,
-                { key: 'sub3', title: React.createElement(
-                        'span',
+                { key: "sub3", title: React.createElement(
+                        "span",
                         null,
-                        React.createElement(_icon2.default, { type: 'notification' }),
-                        'subnav 3'
+                        React.createElement(_icon2.default, { type: "notification" }),
+                        "subnav 3"
                     ) },
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '9' },
-                    'option9'
+                    { key: "9" },
+                    "option9"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '10' },
-                    'option10'
+                    { key: "10" },
+                    "option10"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '11' },
-                    'option11'
+                    { key: "11" },
+                    "option11"
                 ),
                 React.createElement(
                     _menu2.default.Item,
-                    { key: '12' },
-                    'option12'
+                    { key: "12" },
+                    "option12"
                 )
             )
         )

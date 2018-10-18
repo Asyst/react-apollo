@@ -17,3 +17,6 @@
 .NewsFeed .card-title a {
     color: #fff;
 }
+.NewsFeed .ant-card {
+    max-width: 550px;
+}

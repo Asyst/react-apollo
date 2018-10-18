@@ -3,12 +3,19 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-const SideBar = () => <Sider width={200} style={{ background: '#fff' }}>
+const SideBar = ({ collapsed }) => <Sider 
+                        trigger={null}
+                        breakpoint="lg"
+                        collapsedWidth="0"
+                        collapsible
+                        collapsed={ collapsed }  
+                        width={200} 
+                        style={{ padding: '18px 0 0', background: '#fff' }}>
     <Menu
         mode="inline"
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
-        style={{ height: '100%', borderRight: 0 }} >
+        style={{ height: '100%' }} >
         <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
             <Menu.Item key="1">option1</Menu.Item>
             <Menu.Item key="2">option2</Menu.Item>
