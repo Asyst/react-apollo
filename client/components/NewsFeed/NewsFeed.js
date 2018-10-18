@@ -55,13 +55,16 @@ class NewsFeed extends Component {
                                                 : data.posts.map((post, idx) => 
                                                 <Card
                                                     key={ idx }
-                                                    style={{ width: 300 }}
+                                                    style={{ 
+                                                        margin: '0 0 14px',
+                                                        width: 500 
+                                                    }}
                                                     loading={ loading }
                                                     cover={ !loading && <img alt={ post.title } src={ post.image } />}
                                                     actions={ !loading && [
-                                                        <Icon type="setting" />, 
-                                                        <Icon type="edit" />, 
-                                                        <Icon type="ellipsis" />
+                                                        <Icon type="like" />, 
+                                                        <Icon type="message" />, 
+                                                        <Icon type="share-alt" />
                                                     ]}
                                                 >
                                                     <Skeleton loading={loading} active avatar>

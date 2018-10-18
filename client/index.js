@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'mobx-react';
+// import { Provider } from 'mobx-react';
 import ApolloClient from "apollo-boost";
 import { toIdValue } from 'apollo-utilities';
 import { ApolloProvider } from "react-apollo";
 import { defaults, resolvers } from "./graphql/resolvers";
 
-import newsFeedStore from './stores/newsFeedStore';
+// import newsFeedStore from './stores/newsFeedStore';
 
 import App from './App';
 
@@ -36,23 +36,16 @@ const client = new ApolloClient({
     },
     cacheRedirects: {
         Query: {
-            posts: (_, { id }, { getCacheKey }) =>
-                getCacheKey({ __typename: 'Post', id })
+            post: (_, { id }, { getCacheKey }) => getCacheKey({ __typename: 'Post', id })
         }
     }
 });
 
-const stores = {
-    newsFeedStore
-};
-
 render(
     <ApolloProvider client={ client }>
-        <Provider { ...stores }>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </Provider>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </ApolloProvider>,
     document.getElementById('root')
 );

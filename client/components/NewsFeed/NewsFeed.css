@@ -1,7 +1,10 @@
 /* News Feed */
 .card-container {
-    height: 88vh;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* height: 88vh; */
+    /* overflow: auto; */
 }
 .card-container::-webkit-scrollbar {
     display: none;
