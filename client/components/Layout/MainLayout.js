@@ -20,7 +20,7 @@ class MainLayout extends Component {
 
     render() {
         const { collapsed } = this.state;
-        const { children, crumbs } = this.props;
+        const { children, crumbs, match } = this.props;
 
         return <Layout>
                     <MainHeader 
@@ -29,7 +29,9 @@ class MainLayout extends Component {
                     <Content style={{ padding: '0 24px' }}>
                         <BreadCrumbs crumbs={ crumbs } />
                         <Layout>
-                            <SideBar collapsed={ collapsed } />
+                            <SideBar
+                                match={ match } 
+                                collapsed={ collapsed } />
                         
                             { children }
                         </Layout>

@@ -4,7 +4,7 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-const SideBar = ({ collapsed }) => <Sider 
+const SideBar = ({ match, collapsed }) => <Sider 
                         trigger={null}
                         breakpoint="lg"
                         collapsedWidth="0"
@@ -14,14 +14,14 @@ const SideBar = ({ collapsed }) => <Sider
                         style={{ padding: '18px 0 0', background: '#fff' }}>
     <Menu
         mode="inline"
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={[`${ match.url.substr(1) }`]}
         defaultOpenKeys={['sub1']}
         style={{ height: '100%' }} >
         <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-            <Menu.Item key="1">
+            <Menu.Item key="feed">
                 <NavLink to="/feed">News</NavLink>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="users">
                 <NavLink to="/users">Users</NavLink>
             </Menu.Item>
             <Menu.Item key="3">option3</Menu.Item>

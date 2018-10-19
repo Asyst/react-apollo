@@ -40,7 +40,9 @@ class NewsFeed extends Component {
 
                     return ( <Fragment>
                             <Route exact path={ match.url } render={() => (
-                                <MainLayout crumbs={ crumbs }>
+                                <MainLayout
+                                    match={ match } 
+                                    crumbs={ crumbs }>
                                     <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                                         <div className="NewsFeed">
                                             <h1>NewsFeed</h1>
