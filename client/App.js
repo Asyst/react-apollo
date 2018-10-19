@@ -7,19 +7,19 @@ import UsersList from './components/UsersList';
 
 class App extends Component {
     componentDidMount() {
-        // firebase.auth().getRedirectResult()
-        //     .then(result => {
-        //         console.log(`result -> `, result) 
+        firebase.auth().getRedirectResult()
+            .then(result => {
+                console.log(`result -> `, result) 
 
-        //         if (result.credential) {
-        //             // saveToken(result.credential.accessToken);
-        //             // loginFB(result.additionalUserInfo.profile);
-        //         }
+                if (result.credential) {
+                    // saveToken(result.credential.accessToken);
+                    // loginFB(result.additionalUserInfo.profile);
+                }
 
-        //     })
-        //     .catch(err => {
-        //         throw new Error(err)
-        //     })
+            })
+            .catch(err => {
+                throw new Error(err)
+            })
     }
 
     render() {

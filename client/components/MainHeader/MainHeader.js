@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Query } from "react-apollo";
 import { Layout, Menu, Icon, Avatar } from 'antd';
+import gql from 'graphql-tag';
 
 import './MainHeader.css';
 
@@ -15,6 +16,16 @@ const GET_USER = gql`
         }   
     }
 `;
+
+const authRequest = (operation) => {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    provider.addScope('email');
+
+    firebase.auth().signInWithRedirect(provider);
+
+    console.log('request operation -> ', operation);
+    console.log('request provider -> ', provider);
+}
 
 const MainHeader = ({ collapsed, toggle }) => 
     <Header 
@@ -31,12 +42,12 @@ const MainHeader = ({ collapsed, toggle }) =>
                 style={{ lineHeight: '64px' }}>
                 <Menu.Item key="1">nav 1</Menu.Item>
                 <Menu.Item key="2">nav 2</Menu.Item>
-                <Menu.Item key="3">nav 3</Menu.Item>
+                <Menu.Item key="3" onClick={ authRequest }>Войти</Menu.Item>
             </Menu>
         </div>
-        <Query query={ GET_USER }>
+        {/* <Query query={ GET_USER }>
             {() => <Avatar />}>
-        </Query>
+        </Query> */}
         <Icon
             className="trigger"
             type={ collapsed ? 'menu-unfold' : 'menu-fold' }
