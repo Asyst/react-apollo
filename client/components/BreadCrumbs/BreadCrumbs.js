@@ -1,6 +1,6 @@
 import { Breadcrumb } from 'antd';
 
-const BreadCrumbs = ({ crumbs }) => <Breadcrumb style={{ margin: '16px 0' }}>
+const BreadCrumbs = ({ crumbs }) => <Breadcrumb style={{ margin: '74px 0px 14px' }}>
         { crumbs.map(crumb => crumb !== "" && <Breadcrumb.Item key={ crumb }>{ crumb }</Breadcrumb.Item>) }
     </Breadcrumb>
 

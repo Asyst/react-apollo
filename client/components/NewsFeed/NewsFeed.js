@@ -4,10 +4,9 @@ import { ApolloConsumer } from 'react-apollo';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 
-import { Layout, Icon, Card, Avatar, Skeleton } from 'antd';
+import { Layout, List, Icon, Card, Avatar, Skeleton } from 'antd';
 
 import MainLayout from '../Layout/MainLayout';
-import BreadCrumbs from '../BreadCrumbs';
 import Post from '../Post';
 
 import 'antd/lib/card/style/css';
@@ -27,7 +26,12 @@ const GET_POSTS = gql`
 }`;
 
 class NewsFeed extends Component {
+    state = {
+        limit: new Array(10)
+    };
+
     render() {
+        const { limit } = this.state;
         const { match } = this.props; 
 
         return <Query query={ GET_POSTS }> 
@@ -39,41 +43,39 @@ class NewsFeed extends Component {
                                 <MainLayout crumbs={ crumbs }>
                                     <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                                         <div className="NewsFeed">
-                                        <h1>NewsFeed</h1>
-                                            <div className="card-container">
-                                                { loading 
-                                                    ? <Card style={{ width: 300, marginTop: 16 }} loading={loading}>
-                                                            <Meta
-                                                                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                                                title="Card title"
-                                                                description="This is the description"
-                                                            />
+                                            <h1>NewsFeed</h1>
+                                            
+                                            <List
+                                                itemLayout="horizontal"
+                                                dataSource={ data.posts || limit }
+                                                renderItem={ (post, idx) => {
+                                                    return <List.Item>
+                                                        <Card
+                                                            key={ idx }
+                                                            style={{ 
+                                                                margin: '0 0 14px',
+                                                                minWidth: '550px',
+                                                                width: '100%'
+                                                            }}
+                                                            // loading={ loading }
+                                                            cover={ <img alt={ !loading ? post.title : '' } src={ !loading ? post.image : '' } />}
+                                                            actions={!loading && [
+                                                                <Icon type="like" style={{ fontSize: '20px' }} />, 
+                                                                <Icon type="message" style={{ fontSize: '20px' }} />, 
+                                                                <Icon type="share-alt" style={{ fontSize: '20px' }} />
+                                                            ]}
+                                                        >
+                                                            <Skeleton active loading={ loading }>
+                                                                <Meta
+                                                                    // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                                                    title={ !loading && <Link to={ `/feed/${ post.id }` }>{ post.title }</Link> }
+                                                                    description={ !loading && post.text }
+                                                                />
+                                                            </Skeleton>
                                                         </Card>
-                                                    : data.posts.map((post, idx) => 
-                                                    <Card
-                                                        key={ idx }
-                                                        style={{ 
-                                                            margin: '0 0 14px',
-                                                            width: '100%' 
-                                                        }}
-                                                        loading={ loading }
-                                                        cover={ !loading && <img alt={ post.title } src={ post.image } />}
-                                                        actions={ !loading && [
-                                                            <Icon type="like" />, 
-                                                            <Icon type="message" />, 
-                                                            <Icon type="share-alt" />
-                                                        ]}
-                                                    >
-                                                        <Skeleton loading={loading} active avatar>
-                                                            <Meta
-                                                                // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                                                title={ <Link to={ `/feed/${ post.id }` }>{ post.title }</Link> }
-                                                                description={ post.text }
-                                                            />
-                                                        </Skeleton>
-                                                    </Card>) 
-                                                }
-                                            </div>
+                                                    </List.Item>
+                                                }}
+                                            />
 
                                         </div>
                                     </Content>

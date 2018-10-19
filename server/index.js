@@ -21,7 +21,7 @@ async function StartServer() {
     const server = new ApolloServer({ typeDefs, resolvers });
 
     const app = new Hapi.server({
-        port: 4001,
+        port: 4000,
         host: 'localhost'
     });
 
@@ -83,8 +83,6 @@ async function StartServer() {
         handler: (request, h) => {
             return h.file('./build/index.html')
                 .header('content-type', 'text/html');
-
-            // return 'hello !';
         }
     });
 

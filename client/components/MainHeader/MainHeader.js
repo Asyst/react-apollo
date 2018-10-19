@@ -11,7 +11,7 @@ const MainHeader = ({ collapsed, toggle }) =>
         style={{ position: 'fixed', zIndex: 1, width: '100%', padding: '0 24px' }}>
         <div style={{ display: 'flex', width: '100%' }}>
             <div className="logo">
-                <img src="assets/images/logo/logo.png" />
+                <img src={ `${ window.location.origin }/assets/images/logo/logo.png` } />
             </div>
             <Menu
                 theme="dark"
