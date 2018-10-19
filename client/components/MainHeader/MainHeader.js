@@ -1,9 +1,20 @@
 import { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Query } from "react-apollo";
+import { Layout, Menu, Icon, Avatar } from 'antd';
 
 import './MainHeader.css';
 
 const { Header } = Layout;
+
+const GET_USER = gql`
+    query User($id: ID!) {
+        user(id: $id) {
+            id
+            first_name
+            picture
+        }   
+    }
+`;
 
 const MainHeader = ({ collapsed, toggle }) => 
     <Header 
@@ -23,6 +34,9 @@ const MainHeader = ({ collapsed, toggle }) =>
                 <Menu.Item key="3">nav 3</Menu.Item>
             </Menu>
         </div>
+        <Query query={ GET_USER }>
+            {() => <Avatar />}>
+        </Query>
         <Icon
             className="trigger"
             type={ collapsed ? 'menu-unfold' : 'menu-fold' }

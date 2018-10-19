@@ -41,10 +41,6 @@ class UsersList extends Component {
             {({ loading, error, data, client }) => {
                     const crumbs = match.path.split('/');
 
-                    const usersList = !loading && data;
-
-                    console.log('UsersList RENDER -> ', match);
-
                     return ( <Fragment>
                             <Route exact path={ match.url } render={() => (
                                 <MainLayout 
@@ -58,12 +54,10 @@ class UsersList extends Component {
                                                 itemLayout="horizontal"
                                                 dataSource={ data.users || limit }
                                                 renderItem={ user => {
-                                                    console.log('user -> ', user);
-
                                                     return <List.Item>
                                                         <Skeleton avatar title={false} loading={ loading } active>
                                                             <List.Item.Meta
-                                                                avatar={!loading && <Avatar src={ user.picture } />}
+                                                                avatar={!loading && <Avatar src={ user.picture } >{ user.first_name.substr(0, 1) }</Avatar>}
                                                                 title={!loading && <a href="https://ant.design">{ user.first_name }</a>}
                                                                 onMouseOver={() => client.query({
                                                                     query: GET_USER,
