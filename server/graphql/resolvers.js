@@ -18,7 +18,10 @@ const resolvers = {
         posts: async () => await Post.find().exec(),
         post: async (obj, args, context, info) => await Post.findById(args.id).exec(),
         users: async () => await User.find().exec(),
-        user: async (obj, args, context, info) => await User.find().where(facebookId, args.facebookId).exec(),
+        user: async (obj, args, context, info) => {
+            console.log('user -> ', await User.find().where('facebookId', args.facebookId).exec());
+            return await User.find().where('facebookId', args.facebookId).exec();
+        },
         comments: async () => await Comment.find().exec(),
         books: () => books,
     },

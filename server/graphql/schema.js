@@ -44,7 +44,7 @@ const typeDefs = gql`
       posts: [Post]
       post(id: ID!): Post
       users: [User]
-      user(facebookId: String!): User
+      user(facebookId: String!): [User]
       comments: [Comment]
     }
 `;

@@ -54,6 +54,7 @@
     "apollo-utilities": "^1.0.21",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "firebase": "^5.5.5",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "graphql-tools": "^4.0.0",

@@ -13,17 +13,20 @@ const GET_USERS = gql`
 {
     users {
         id
+        facebookId
         first_name
         picture
     }
 }`;
 
 const GET_USER = gql`
-    query User($id: ID!) {
-        user(id: $id) {
+    query User($facebookId: String!) {
+        user(facebookId: $facebookId) {
             id
+            facebookId
             first_name
             picture
+            email
         }   
     }
 `;
@@ -58,10 +61,10 @@ class UsersList extends Component {
                                                         <Skeleton avatar title={false} loading={ loading } active>
                                                             <List.Item.Meta
                                                                 avatar={!loading && <Avatar src={ user.picture } >{ user.first_name.substr(0, 1) }</Avatar>}
-                                                                title={!loading && <a href="https://ant.design">{ user.first_name }</a>}
+                                                                title={!loading && <Link to={ `/profile/${user.facebookId}` } >{ user.first_name }</Link>}
                                                                 onMouseOver={() => client.query({
                                                                     query: GET_USER,
-                                                                    variables: { id: user.id }
+                                                                    variables: { facebookId: user.facebookId }
                                                                 })}
                                                                 // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                                                             />
@@ -75,6 +78,7 @@ class UsersList extends Component {
                                 
                                 </MainLayout>
                             )} />
+
                         </Fragment>
                     )
                 }
