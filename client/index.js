@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ApolloClient from "apollo-boost";
 import { toIdValue } from 'apollo-utilities';
 import { ApolloProvider } from "react-apollo";
-import { defaults, resolvers } from "./graphql/resolvers";
+import defaults from "./defaults";
 import axios from 'axios';
 
 // import newsFeedStore from './stores/newsFeedStore';
@@ -31,7 +31,7 @@ const typeDefs = `
 const client = new ApolloClient({
     uri: `${window.location.origin}/graphql`,
     clientState: {
-    //   defaults,
+      defaults,
     //   resolvers,
       typeDefs
     },

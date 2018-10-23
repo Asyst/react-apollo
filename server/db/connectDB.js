@@ -7,7 +7,7 @@ import credentials from '../credentials';
 import { v4 } from 'uuid';
 
 const coonectDB = () => {
-    mongoose.connect('mongodb://admin:123456@ds139436.mlab.com:39436/chuguev-info', { useNewUrlParser: true });
+    mongoose.connect(credentials.mongoDB.dev, { useNewUrlParser: true });
 
     const db = mongoose.connection;
 

@@ -7,8 +7,6 @@ import resolvers from './graphql/resolvers';
 
 import coonectDB from './db/connectDB';
 
-const { host, hostname, port } = new URL('http://localhost:3000');
-
 const configurations = {
     // Note: You may need sudo to run on port 443
     production: { ssl: true, port: 443, hostname: 'example.com' },

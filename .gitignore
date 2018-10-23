@@ -2,6 +2,8 @@ node_modules/
 .elasticbeanstalk/
 .gitignore
 build/assets/images/
+client/credentials.js
+server/credentials.js
 
 # Elastic Beanstalk Files
 

@@ -1,6 +1,6 @@
 import { PureComponent, Fragment } from 'react';
 import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import { Mutation } from "react-apollo";
+import { ApolloConsumer, Mutation } from "react-apollo";
 import gql from 'graphql-tag';
 import firebase from 'firebase';
 
@@ -9,9 +9,11 @@ import UsersList from './components/UsersList';
 import Profile from './components/Profile';
 // import Post from './components/Post';
 
+import credentials from './credentials';
+
 const FETCH_USER = gql`
-  mutation FetchUser($user: User!) {
-    fetchUser(user: $user) {
+  query {
+    fetchUser @client {
       id
       displayName
       photoURL
@@ -20,17 +22,26 @@ const FETCH_USER = gql`
 `;
 
 const config = {
-    apiKey: "AIzaSyDnuxqmvPg-FQRw6PPBkUCKOzym3oQSPSI",
-    authDomain: "chuguev-info.firebaseapp.com",
-    databaseURL: "https://chuguev-info.firebaseio.com",
-    projectId: "chuguev-info",
-    storageBucket: "chuguev-info.appspot.com",
-    messagingSenderId: "201069311016"
+    apiKey: credentials.apiKey,
+    authDomain: credentials.authDomain,
+    databaseURL: credentials.databaseURL,
+    projectId: credentials.projectId,
+    storageBucket: credentials.storageBucket,
+    messagingSenderId: credentials.messagingSenderId
 };
 
 class App extends PureComponent {
     componentDidMount() {
-        
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const [userData] = user.providerData;
+                // User is signed in.
+                console.log(`onAuthStateChanged render user -> `, userData);
+                // fetchUser(userInfo);
+            } else {
+                // No user is signed in.
+            }
+        });
         
         // firebase.auth().getRedirectResult()
         //     .then(result => {
@@ -52,22 +63,9 @@ class App extends PureComponent {
 
         console.log(`App render -> `, this);
 
-        return <Mutation 
-            mutation={ FETCH_USER }
-            update={(cache, { data }) => {
-                console.log(`Mutation update cache -> `, cache);
-            }}>
-            {(fetchUser, { data }) => {
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        const [userInfo] = user.providerData;
-                        // User is signed in.
-                        console.log(`onAuthStateChanged render user -> `, userInfo);
-                        // fetchUser(userInfo);
-                    } else {
-                        // No user is signed in.
-                    }
-                });
+        return <ApolloConsumer>
+            {(client) => {
+                console.log('ApolloConsumer -> ', client);
 
                 return <Fragment>
                     <Switch>
@@ -78,7 +76,7 @@ class App extends PureComponent {
                     </Switch>
                 </Fragment>
             }}
-        </Mutation>
+        </ApolloConsumer>
     }
 }
 
