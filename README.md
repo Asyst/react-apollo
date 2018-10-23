@@ -1,2 +1,2 @@
-# react-mobx-apollo
+# react-apollo
 test app
