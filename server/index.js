@@ -79,8 +79,7 @@ async function StartServer() {
         method: 'GET',
         path: '/{path}/{id?}',
         handler: (request, h) => {
-            return h.file('./build/index.html')
-                .header('content-type', 'text/html');
+            return h.file('./build/index.html');
         }
     });
 

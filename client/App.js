@@ -1,4 +1,4 @@
-import { PureComponent, Fragment } from 'react';
+import { Component, Fragment } from 'react';
 import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { ApolloConsumer, Mutation } from "react-apollo";
 import gql from 'graphql-tag';
@@ -11,38 +11,33 @@ import Profile from './components/Profile';
 
 import credentials from './credentials';
 
-const FETCH_USER = gql`
-  query {
-    fetchUser @client {
-      id
-      displayName
-      photoURL
+const GET_USER = gql`
+    query {
+        currentUser {
+            uid
+            displayName
+            photoURL
+            email
+            phoneNumber
+            providerId
+        }
     }
-  }
+    
 `;
 
 const config = {
-    apiKey: credentials.apiKey,
-    authDomain: credentials.authDomain,
-    databaseURL: credentials.databaseURL,
-    projectId: credentials.projectId,
-    storageBucket: credentials.storageBucket,
-    messagingSenderId: credentials.messagingSenderId
+    apiKey: credentials.firebase.apiKey,
+    authDomain: credentials.firebase.authDomain,
+    databaseURL: credentials.firebase.databaseURL,
+    projectId: credentials.firebase.projectId,
+    storageBucket: credentials.firebase.storageBucket,
+    messagingSenderId: credentials.firebase.messagingSenderId
 };
 
-class App extends PureComponent {
+firebase.initializeApp(config);
+
+class App extends Component {
     componentDidMount() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                const [userData] = user.providerData;
-                // User is signed in.
-                console.log(`onAuthStateChanged render user -> `, userData);
-                // fetchUser(userInfo);
-            } else {
-                // No user is signed in.
-            }
-        });
-        
         // firebase.auth().getRedirectResult()
         //     .then(result => {
         //         console.log(`result -> `, result) 
@@ -59,13 +54,24 @@ class App extends PureComponent {
     }
 
     render() {
-        firebase.initializeApp(config);
-
-        console.log(`App render -> `, this);
-
         return <ApolloConsumer>
             {(client) => {
-                console.log('ApolloConsumer -> ', client);
+                // const state = client.readFragment({ fragment: GET_USER });
+
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        const [userData] = user.providerData;
+                        // User is signed in.
+                        client.writeData({ data: { currentUser: {...userData} } });
+                        console.log(`onAuthStateChanged render user -> `, userData);
+                        // fetchUser(userInfo);
+                    } else {
+                        // No user is signed in.
+                    }
+                });
+
+                // console.log('ApolloConsumer client -> ', client);
+                console.log('ApolloConsumer cache -> ', client);
 
                 return <Fragment>
                     <Switch>
