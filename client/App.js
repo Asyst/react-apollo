@@ -1,6 +1,6 @@
 import { Component, Fragment } from 'react';
 import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import { ApolloConsumer, Mutation } from "react-apollo";
+import { ApolloConsumer, Mutation, graphql } from "react-apollo";
 import gql from 'graphql-tag';
 import firebase from 'firebase';
 
@@ -13,7 +13,20 @@ import credentials from './credentials';
 
 const GET_USER = gql`
     query {
-        currentUser {
+        currentUser @client {
+            uid
+            displayName
+            photoURL
+            email
+            phoneNumber
+            providerId
+        }   
+    }
+`;
+
+const UPDATE_USER = gql`
+    mutation updateUserData($userData: User!) {
+        updatetUser(userData: $userData) {
             uid
             displayName
             photoURL
@@ -38,40 +51,54 @@ firebase.initializeApp(config);
 
 class App extends Component {
     componentDidMount() {
-        // firebase.auth().getRedirectResult()
-        //     .then(result => {
-        //         console.log(`result -> `, result) 
+        const { data } = this.props;
 
-        //         if (result.credential) {
-        //             // saveToken(result.credential.accessToken);
-        //             // loginFB(result.additionalUserInfo.profile);
-        //         }
+        console.log('componentDidMount -> ', this);
 
-        //     })
-        //     .catch(err => {
-        //         throw new Error(err)
-        //     })
-    }
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const [userData] = user.providerData;
+                // User is signed in.
+                // client.writeQuery({ 
+                //     query: GET_USER, 
+                //     data: { currentUser: {...userData} } 
+                // });
+                // const { currentUser } = cache.readQuery({ query: GET_USER });
 
-    render() {
-        return <ApolloConsumer>
-            {(client) => {
-                // const state = client.readFragment({ fragment: GET_USER });
+                data.updateQuery((previousResult) => {
+                    console.log('updateQuery previousResult -> ', previousResult);
 
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        const [userData] = user.providerData;
-                        // User is signed in.
-                        client.writeData({ data: { currentUser: {...userData} } });
-                        console.log(`onAuthStateChanged render user -> `, userData);
-                        // fetchUser(userInfo);
-                    } else {
-                        // No user is signed in.
+                    return {
+                        ...previousResult,
+                        currentUser: {
+                            ...previousResult.currentUser,
+                            ...userData
+                        },
                     }
                 });
 
+                // updatetUser(userData);
+                // cache.writeQuery({
+                //     query: GET_USER,
+                //     data: { currentUser: todos.concat([addTodo]) }
+                // });
+
+                // console.log(`onAuthStateChanged currentUser -> `, currentUser);
+                console.log(`onAuthStateChanged userData -> `, userData);
+                // fetchUser(userInfo);
+            } else {
+                // No user is signed in.
+            }
+        });
+    }
+
+    render() {
+        return <Mutation 
+            mutation={ UPDATE_USER } >
+            {({ data }) => {
+                // const state = client.readFragment({ fragment: GET_USER });
                 // console.log('ApolloConsumer client -> ', client);
-                console.log('ApolloConsumer cache -> ', client);
+                // console.log('ApolloConsumer cache -> ', client.readQuery({ query: GET_USER }));
 
                 return <Fragment>
                     <Switch>
@@ -82,8 +109,8 @@ class App extends Component {
                     </Switch>
                 </Fragment>
             }}
-        </ApolloConsumer>
+        </Mutation>
     }
 }
 
-export default App;
+export default graphql(GET_USER)(App);

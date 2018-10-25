@@ -1,6 +1,6 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { Query } from "react-apollo";
-import { Layout, Menu, Icon, Avatar } from 'antd';
+import { Layout, Menu, Icon, Avatar, Spin } from 'antd';
 import gql from 'graphql-tag';
 import firebase from 'firebase';
 
@@ -46,10 +46,10 @@ const getUser = (user) => {
 };
 
 const MainHeader = ({ collapsed, toggle }) => {
-    firebase.auth().onAuthStateChanged(getUser);
-    
     return <Query query={ GET_USER }>
-        {({ loading, error, data, client }) => {
+        {({ loading, error, data: { currentUser }, client }) => {
+
+                console.log('currentUser -> ', currentUser);
 
                 return (<Header 
                     className="header"
@@ -68,12 +68,20 @@ const MainHeader = ({ collapsed, toggle }) => {
                             <Menu.Item key="3" onClick={ authRequest }>Войти</Menu.Item>
                         </Menu>
                     </div>
-                    {/* <Avatar src={ currentUser && currentUser.photoURL }>{ currentUser && currentUser.displayName }</Avatar> */}
-                    <Icon
+                    <div className="user-info">
+                        { loading
+                            ? <Spin size="large" />
+                            : <Fragment>
+                                <Avatar src={ currentUser.photoURL }>{ currentUser.displayName }</Avatar>
+                                <div className="user-name">{ loading && currentUser.displayName }</div>
+                            </Fragment> 
+                        }
+                    </div>
+                    {/* <Icon
                         className="trigger"
                         type={ collapsed ? 'menu-unfold' : 'menu-fold' }
                         style={{ color: '#fff', fontSize: '20px' }}
-                        onClick={ toggle } />
+                        onClick={ toggle } /> */}
                 </Header>);
             }
         }

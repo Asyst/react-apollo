@@ -1,3 +1,5 @@
+// resolver signature -> fieldName(obj, args, context, info) { result }
+
 const books = [
     {
       title: 'Harry Potter and the Chamber of Secrets',
@@ -9,15 +11,23 @@ const books = [
     },
 ];
 
-export const defaults = {
-    posts: []
-};
-
 const resolvers = {
     Query: {
-        posts: async () => await Post.find().exec(),
-        comments: async () => await Comment.find().exec(),
-        books: () => books,
+        // posts: async () => await Post.find().exec(),
+        // comments: async () => await Comment.find().exec(),
+        // books: () => books,
+        currentUser: (obj, args, { cache }, info) => {
+            console.log('currentUser obj -> ', obj);
+            console.log('currentUser args -> ', args);
+            console.log('currentUser cache -> ', cache.getCacheKey({ __typename: 'User' }));
+
+            return obj;
+        }
+    },
+    Mutation: {
+        updatetUser: (_, variables, { cache, getCacheKey }) => {
+            console.log('updatetUser variables -> ', variables);
+        }
     }
 };
 
