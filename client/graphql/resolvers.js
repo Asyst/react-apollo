@@ -1,4 +1,5 @@
 // resolver signature -> fieldName(obj, args, context, info) { result }
+import axios from 'axios';
 
 const books = [
     {
@@ -22,6 +23,19 @@ const resolvers = {
             console.log('currentUser cache -> ', cache.getCacheKey({ __typename: 'User' }));
 
             return obj;
+        },
+        fetchUserPhoto: async (obj, args, { cache }, info) => {
+            // console.log('currentUser obj -> ', axios.get(`https://graph.facebook.com/${args.uid}/picture?width=120&height=120`));
+            const userPicture = await axios.get(`https://graph.facebook.com/v3.2/${args.uid}/picture?type=large`);
+
+            console.log('fetchUserPhoto cache -> ', cache);
+            console.log('fetchUserPhoto userPicture -> ', userPicture);
+
+            // cache.updateQuery((previousResult) => {
+            //     console.log('fetchUserPhoto userPicture -> ', userPicture);
+            //     console.log('fetchUserPhoto previousResult -> ', previousResult);
+            // });
+            return userPicture;
         }
     },
     Mutation: {

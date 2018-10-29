@@ -1,4 +1,5 @@
 import { Component, Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Query } from "react-apollo";
 import { Layout, Menu, Icon, Avatar, Spin } from 'antd';
 import gql from 'graphql-tag';
@@ -68,12 +69,25 @@ const MainHeader = ({ collapsed, toggle }) => {
                             <Menu.Item key="3" onClick={ authRequest }>Войти</Menu.Item>
                         </Menu>
                     </div>
-                    <div className="user-info">
+                    <div className="user-info" style={{
+                        position: 'relative', 
+                        width: '240px',
+                        height: '100%' }}>
                         { loading
                             ? <Spin size="large" />
                             : <Fragment>
-                                <Avatar src={ currentUser.photoURL }>{ currentUser.displayName }</Avatar>
-                                <div className="user-name">{ loading && currentUser.displayName }</div>
+                                <NavLink 
+                                    to="/profile" 
+                                    style={{ 
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        color: '#fff'
+                                    }}>
+                                    <Avatar 
+                                        src={ currentUser.photoURL }
+                                        style={{ margin: '0 12px' }}>{ currentUser.displayName }</Avatar>
+                                    <div className="user-name">{ currentUser.displayName }</div>
+                                </NavLink>
                             </Fragment> 
                         }
                     </div>
