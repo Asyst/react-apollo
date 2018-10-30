@@ -2,6 +2,7 @@ const
     webpack = require('webpack'),
     path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    DashboardPlugin = require('webpack-dashboard/plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin');
     // ReactLoadablePlugin = require('react-loadable/webpack').ReactLoadablePlugin;
     // HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -18,11 +19,19 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
+            chunks: 'all',
+            minChunks: 2,
             cacheGroups: {
-                commons: {
-                    name: "commons",
-                    chunks: "initial",
-                    minChunks: 2
+                    vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    name: 'vendors',
+                    chunks: 'all'
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true
                 }
             }
         }
@@ -100,6 +109,7 @@ module.exports = {
                 IS_BROWSER: "true"
             }
         }),
+        new DashboardPlugin(),
         // new HtmlWebpackPlugin({
         //     filename: 'index.html',
         //     template: './public/index.html'

@@ -38,13 +38,26 @@ async function StartServer() {
 
     app.route({
         method: 'GET',
+        path: '/sw.js',
+        handler: {
+            file: {
+                path: './build/sw/sw.js',
+                filename: 'sw.js', // override the filename in the Content-Disposition header
+                mode: 'attachment', // specify the Content-Disposition is an attachment
+                lookupCompressed: true // allow looking for script.js.gz if the request allows it
+            }
+        }
+    });
+
+    app.route({
+        method: 'GET',
         path: '/bundle.js',
         handler: {
             file: {
                 path: './build/bundle.js',
-                filename: 'bundle.js', // override the filename in the Content-Disposition header
-                mode: 'attachment', // specify the Content-Disposition is an attachment
-                lookupCompressed: true // allow looking for script.js.gz if the request allows it
+                filename: 'bundle.js',
+                mode: 'attachment',
+                lookupCompressed: true
             }
         }
     });
@@ -55,9 +68,9 @@ async function StartServer() {
         handler: {
             file: {
                 path: './build/assets/css/bundle.css',
-                filename: 'bundle.css', // override the filename in the Content-Disposition header
-                mode: 'attachment', // specify the Content-Disposition is an attachment
-                lookupCompressed: true // allow looking for script.js.gz if the request allows it
+                filename: 'bundle.css',
+                mode: 'attachment',
+                lookupCompressed: true
             }
         }
     });
@@ -68,9 +81,9 @@ async function StartServer() {
         handler: {
             file: {
                 path: './build/assets/images/logo/logo.png',
-                filename: 'logo.png', // override the filename in the Content-Disposition header
-                mode: 'attachment', // specify the Content-Disposition is an attachment
-                lookupCompressed: true // allow looking for script.js.gz if the request allows it
+                filename: 'logo.png',
+                mode: 'attachment',
+                lookupCompressed: true
             }
         }
     });

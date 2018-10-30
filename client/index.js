@@ -16,6 +16,8 @@ import typeDefs from './graphql/schema';
 import resolvers from "./graphql/resolvers";
 import axios from 'axios';
 
+import registerServiceWorker from './registerServiceWorker';
+
 // import newsFeedStore from './stores/newsFeedStore';
 
 import App from './App';
@@ -112,3 +114,5 @@ render(
     </ApolloProvider>,
     document.getElementById('root')
 );
+
+registerServiceWorker();

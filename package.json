@@ -12,7 +12,8 @@
     "server": "nodemon server/index.js --exec babel-node",
     "build-server": "webpack --config webpack.server.config.js",
     "build-all": "yarn build && yarn build-server",
-    "test-bundle": "webpack --config webpack.test.config.js"
+    "test-bundle": "webpack --config webpack.test.config.js",
+    "dev": "webpack-dashboard webpack --mode=development -w"
   },
   "devDependencies": {
     "autoprefixer": "^8.0.0",
@@ -42,6 +43,7 @@
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.3",
     "webpack-cli": "^3.1.2",
+    "webpack-dashboard": "^2.0.0",
     "webpack-node-externals": "^1.7.2",
     "worker-loader": "^1.1.1"
   },
