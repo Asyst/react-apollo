@@ -24,18 +24,24 @@ const resolvers = {
 
             return obj;
         },
-        fetchUserPhoto: async (obj, args, { cache }, info) => {
-            // console.log('currentUser obj -> ', axios.get(`https://graph.facebook.com/${args.uid}/picture?width=120&height=120`));
-            const userPicture = await axios.get(`https://graph.facebook.com/v3.2/${args.uid}/picture?type=large`);
+        // fetchUserPhoto: async (obj, args, { cache }, info) => {
+        //     // console.log('currentUser obj -> ', axios.get(`https://graph.facebook.com/${args.uid}/picture?width=120&height=120`));
+        //     const userPicture = await axios.get(`https://graph.facebook.com/v3.2/${args.uid}/picture?type=large`);
 
-            console.log('fetchUserPhoto cache -> ', cache);
-            console.log('fetchUserPhoto userPicture -> ', userPicture);
+        //     console.log('fetchUserPhoto cache -> ', cache);
+        //     console.log('fetchUserPhoto userPicture -> ', userPicture);
+            
+        //     return userPicture;
+        // }
+    },
+    User: {
+        photoURL: parent => {
+            const { facebookId } = parent;
 
-            // cache.updateQuery((previousResult) => {
-            //     console.log('fetchUserPhoto userPicture -> ', userPicture);
-            //     console.log('fetchUserPhoto previousResult -> ', previousResult);
-            // });
-            return userPicture;
+            console.log('user -> ', facebookId);
+
+            return axios.get(`https://graph.facebook.com/v3.2/${facebookId}/picture?type=large`)
+            .then(response => response.data.url);
         }
     },
     Mutation: {

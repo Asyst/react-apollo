@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import User from '../user/user.model';
 import Post from '../post/post.model';
 import Comment from '../comment/comment.model';
@@ -19,12 +21,12 @@ const resolvers = {
         post: async (obj, args, context, info) => await Post.findById(args.id).exec(),
         users: async () => await User.find().exec(),
         user: async (obj, args, context, info) => {
-            console.log('user -> ', await User.find().where('facebookId', args.facebookId).exec());
+            // console.log('user -> ', await User.find().where('facebookId', args.facebookId).exec());
             return await User.find().where('facebookId', args.facebookId).exec();
         },
         comments: async () => await Comment.find().exec(),
-        books: () => books,
-    },
+        books: () => books
+    }
 };
 
 export default resolvers;

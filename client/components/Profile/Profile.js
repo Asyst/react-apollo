@@ -1,9 +1,10 @@
 import { Component, Fragment } from 'react';
 import { NavLink, Link, Route } from 'react-router-dom';
-import { Query } from "react-apollo";
+import { graphql } from "react-apollo";
 import gql from 'graphql-tag';
+import axios from 'axios';
 
-import { Layout, Icon, List, Avatar, Skeleton, Button } from 'antd';
+import { Layout, Avatar, Skeleton, Button } from 'antd';
 
 import MainLayout from '../Layout/MainLayout';
 
@@ -22,59 +23,62 @@ const GET_USER = gql`
     }
 `;
 
-const GET_PROFILE_PICTURE = gql`
-    query fetchPhoto($uid: ID!) {
-        fetchUserPhoto(uid: $uid) @client {
-            photoURL
+class Profile extends Component {
+    state = {
+        photoURL: ''
+    };
+
+    componentDidUpdate() {
+        const { photoURL } = this.state;
+        const { data: { currentUser } } = this.props;
+
+        if (currentUser.uid && !photoURL) {
+            axios.get(`https://graph.facebook.com/v3.2/${currentUser.uid}/picture?type=large`)
+                .then(response => response.request.responseURL)
+                .then(photoURL => {
+                    this.setState({ photoURL });
+                })
         }
     }
-`;
 
-class Profile extends Component {
     render() {
-        const { match } = this.props;
+        const { photoURL } = this.state;
+        const { match, data: { currentUser } } = this.props;
 
-        return <Query query={ GET_USER }>
-            {({ loading, error, data: { currentUser }, client }) => {
-                    const crumbs = match.path.split('/');
+        const crumbs = match.path.split('/');
 
-                    console.log('currentUser -> ', currentUser);
+        return <Fragment>
+            <Route path={ match.url } render={ () => (
+                <MainLayout 
+                    match={ match }
+                    crumbs={ crumbs }>
+                    <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+                        <div className="profile" 
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center'
+                            }}>
+                            <Skeleton avatar={{ size: 'large' }} loading={ !photoURL } active>
+                                <h1>Profile</h1>
 
-                    return <Fragment>
-                        <Route path={ match.url } render={ () => (
-                            <MainLayout 
-                            match={ match }
-                            crumbs={ crumbs }>
-                                <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                                    <div className="profile">
-                                        <Skeleton avatar title={false} loading={ loading } active>
-                                            <h1>Profile</h1>
-                                            {
-                                                !loading && <Query query={ GET_PROFILE_PICTURE } variables={{ uid: currentUser.uid }}>
-                                                    { ({ loading, error, data, client }) => {
-                                                        console.log('GET_PROFILE_PICTURE client -> ', client);
-                                                        console.log('GET_PROFILE_PICTURE data -> ', data);
+                                <Avatar 
+                                    src={ photoURL } 
+                                    icon="user" 
+                                    size={ 120 }
+                                    style={{ margin: '0 0 8px' }}>A</Avatar>
 
-                                                        return <Avatar>
-                                                                    A
-                                                                </Avatar>
-                                                        }  
-                                                    }
-                                                </Query>
-                                            }
-                                            <div>{ !loading && currentUser.displayName }</div>
-                                            <div>{ !loading && currentUser.email }</div>
-                                            <Button type="primary" ghost>Follow</Button>
-                                        </Skeleton>
-                                    </div>
-                                </Content>
-                            </MainLayout>
-                        ) } />
-                    </Fragment>
-                }
-            }
-        </Query>
+                                <div>{ currentUser.displayName }</div>
+                                <div style={{ margin: '0 0 8px' }}>{ currentUser.email }</div>
+
+                                <Button type="primary" ghost>Follow</Button>
+                            </Skeleton>
+                        </div>
+                    </Content>
+                </MainLayout>
+            ) } />
+        </Fragment> 
     }
 }
 
-export default Profile;
+export default graphql(GET_USER)(Profile);

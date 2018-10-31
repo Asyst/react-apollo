@@ -29,16 +29,11 @@ const authRequest = (operation) => {
     provider.addScope('email');
 
     firebase.auth().signInWithRedirect(provider);
-
-    console.log('request operation -> ', operation);
-    console.log('request provider -> ', provider);
 }
 
 const getUser = (user) => {
     if (user) {
         const [userData] = user.providerData;
-
-        console.log('getUser -> ', userData);
 
         return userData;
     } else {
@@ -49,8 +44,6 @@ const getUser = (user) => {
 const MainHeader = ({ collapsed, toggle }) => {
     return <Query query={ GET_USER }>
         {({ loading, error, data: { currentUser }, client }) => {
-
-                console.log('currentUser -> ', currentUser);
 
                 return (<Header 
                     className="header"
@@ -69,10 +62,13 @@ const MainHeader = ({ collapsed, toggle }) => {
                             <Menu.Item key="3" onClick={ authRequest }>Войти</Menu.Item>
                         </Menu>
                     </div>
-                    <div className="user-info" style={{
-                        position: 'relative', 
-                        width: '240px',
-                        height: '100%' }}>
+                    <div className="user-info" 
+                        style={{
+                            position: 'relative',
+                            display: 'flex',
+                            width: '240px',
+                            height: '100%' 
+                        }}>
                         { loading
                             ? <Spin size="large" />
                             : <Fragment>
@@ -83,9 +79,13 @@ const MainHeader = ({ collapsed, toggle }) => {
                                         alignItems: 'center',
                                         color: '#fff'
                                     }}>
+
                                     <Avatar 
                                         src={ currentUser.photoURL }
-                                        style={{ margin: '0 12px' }}>{ currentUser.displayName }</Avatar>
+                                        style={{ margin: '0 12px' }}>
+                                            { currentUser.displayName }
+                                    </Avatar>
+                                    
                                     <div className="user-name">{ currentUser.displayName }</div>
                                 </NavLink>
                             </Fragment> 
