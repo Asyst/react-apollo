@@ -57,22 +57,29 @@ class Profile extends Component {
                             style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                margin: '0 auto',
+                                width: '240px'
                             }}>
-                            <Skeleton avatar={{ size: 'large' }} loading={ !photoURL } active>
-                                <h1>Profile</h1>
+                            <h1>Profile</h1>
 
-                                <Avatar 
-                                    src={ photoURL } 
-                                    icon="user" 
-                                    size={ 120 }
-                                    style={{ margin: '0 0 8px' }}>A</Avatar>
+                            <Avatar 
+                                src={ photoURL } 
+                                icon="user" 
+                                size={ 120 }
+                                style={{ margin: '0 0 8px' }}>
+                                { currentUser.displayName.substr(0, 1) }    
+                            </Avatar>
 
+                            <Skeleton
+                                active
+                                title={ false }
+                                loading={ !photoURL }>
                                 <div>{ currentUser.displayName }</div>
                                 <div style={{ margin: '0 0 8px' }}>{ currentUser.email }</div>
-
                                 <Button type="primary" ghost>Follow</Button>
                             </Skeleton>
+
                         </div>
                     </Content>
                 </MainLayout>
