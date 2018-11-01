@@ -8,6 +8,7 @@ import axios from 'axios';
 import NewsFeed from './components/NewsFeed';
 import UsersList from './components/UsersList';
 import Profile from './components/Profile';
+import AddPost from './components/Forms/AddPost';
 // import Post from './components/Post';
 
 import credentials from './credentials';
@@ -86,6 +87,7 @@ class App extends Component {
                         <Route path="/users" component={ UsersList } />
                         <Route path="/profile" component={ Profile } />
                         <Route path="/profile/:userId" component={ Profile } />
+                        <Route path="/add_post" component={ AddPost } />
                     </Switch>
                 </Fragment>
             }}

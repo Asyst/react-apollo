@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 
 const postSchema = Schema({
     _id: Schema.Types.ObjectId,
-    author_id: { type: Schema.Types.ObjectId, ref: 'User' },
     author: {
-        type: String,
+        type: Schema.Types.ObjectId, ref: 'User',
         require: true,
         validate: {
             validator: (v) => v !== "undefined"

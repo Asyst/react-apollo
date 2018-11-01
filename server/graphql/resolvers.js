@@ -26,6 +26,11 @@ const resolvers = {
         },
         comments: async () => await Comment.find().exec(),
         books: () => books
+    },
+    Mutation: {
+        addPost: (_, variables, { cache, getCacheKey }) => {
+            console.log('Add Post -> ', variables);
+        }
     }
 };
 

@@ -96,6 +96,16 @@ async function StartServer() {
         }
     });
 
+    app.route({
+        method: 'POST',
+        path: '/upload',
+        handler: (request, h) => {
+            console.log('Upload -> ', request.payload);
+
+            return h.response('success!');
+        }
+    });
+
     await server.installSubscriptionHandlers(app.listener);
 
     await app.start();

@@ -32,9 +32,23 @@ const typeDefs = gql`
       comments: [String]
     }
 
+    input File {
+      uid: ID!
+      filename: String
+      size: String
+      type: String
+      lastModified: String
+    }
+
     type Comment {
       text: String
       date: String
+    }
+
+    input PostInput {
+      author: ID!
+      title: String
+      image: [Upload!]
     }
 
     # The "Query" type is the root of all GraphQL queries.
@@ -46,6 +60,10 @@ const typeDefs = gql`
       users: [User]
       user(facebookId: String!): [User]
       comments: [Comment]
+    }
+
+    type Mutation {
+      addPost(input: PostInput): Post
     }
 `;
 
