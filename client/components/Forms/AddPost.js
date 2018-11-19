@@ -12,6 +12,8 @@ import ImageUploader from './ImageUploader';
 
 const FormItem = Form.Item;
 
+const { TextArea } = Input;
+
 const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -55,6 +57,8 @@ const ADD_POST = gql`
             author
             title
             image
+            text
+            tags
         }
     }
 `;
@@ -67,7 +71,7 @@ const AddPost = ({ match, form: { getFieldDecorator }, uploader, handlers, input
 
                 const crumbs = match.path.split('/');
 
-                console.log('AddPost -> ', uploader);
+                // console.log('AddPost -> ', uploader);
 
                 return <Mutation mutation={ ADD_POST }>
                     { addPost => (
@@ -80,20 +84,24 @@ const AddPost = ({ match, form: { getFieldDecorator }, uploader, handlers, input
                                     onSubmit={ e => {
                                         e.preventDefault();
 
-                                        console.log('AddPost -> ', inputs)
+                                        console.log('AddPost inputs -> ', inputs)
+                                        // console.log('AddPost uploader -> ', uploader)
 
                                         addPost({ 
-                                            variables: { 
-                                                author: currentUser.uid, 
-                                                title: inputs.title,
-                                                image: uploader.fileList
-                                            } 
+                                            variables: {
+                                                input: { 
+                                                    author: currentUser.uid, 
+                                                    title: inputs.title,
+                                                    image: uploader.fileList,
+                                                    text: inputs.text,
+                                                    tags: inputs.tags
+                                                } 
+                                            }
                                         });
                                 } }>
 
                                     <FormItem
-                                        {...formItemLayout}
-                                        label="Title">
+                                        label="Заголовок">
                                         { getFieldDecorator('title', {
                                             rules: [{
                                                 required: true, message: 'Please input title!',
@@ -107,8 +115,20 @@ const AddPost = ({ match, form: { getFieldDecorator }, uploader, handlers, input
                                                 onChange={ handlers.handleInputChange } />
                                         ) }    
                                     </FormItem>
+                                    <FormItem label="Текст">
+                                        <TextArea 
+                                            rows={4}
+                                            name="text"
+                                            onChange={ handlers.handleInputChange } />
+                                    </FormItem>
                                     <FormItem>
                                         <ImageUploader uploader={ uploader } handlers={ handlers } />
+                                    </FormItem>
+                                    <FormItem label="Тэги">
+                                        <TextArea 
+                                            rows={2}
+                                            name="tags"
+                                            onChange={ handlers.handleInputChange } />
                                     </FormItem>
                                     <FormItem {...tailFormItemLayout}>
                                         <Button type="primary" htmlType="submit">Add Post</Button>

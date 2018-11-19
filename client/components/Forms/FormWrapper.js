@@ -13,15 +13,19 @@ export default function FormWrapper(WrappedComponnet) {
 
         handleInputChange = e => {
             const name = e.target.getAttribute('name');
+            const value = e.target.value;
+
+            console.log('handleInputChange -> ', e.target.value);
 
             this.setState(state => ({
                 ...state,
                 inputs: {
-                    [e.target.name]: e.target.value
+                    ...state.inputs,
+                    [name]: value
                 }
             }));
 
-            this.props.form.setFieldsValue({ [name]: e.target.value })
+            // this.props.form.setFieldsValue({ [name]: e.target.value })
         }
 
         handleCancel = () => this.setState({ uploader: { previewVisible: false } })
