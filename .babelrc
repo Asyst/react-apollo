@@ -1,0 +1,13 @@
+{
+    "presets": [
+        "env",
+        "stage-2",
+        "react"
+    ],
+    "plugins": [
+        "transform-runtime",      
+        "dynamic-import-node",
+        ["transform-decorators-legacy"],
+        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
+    ]
+}

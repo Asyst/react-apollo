@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.logo {
+    width: 40px;
+}
+    .logo img {
+        max-width: 100%;
+    }
