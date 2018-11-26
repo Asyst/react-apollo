@@ -1,7 +1,7 @@
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Query } from "react-apollo";
-import { Layout, Menu, Icon, Avatar, Spin } from 'antd';
+import { Layout, Menu, Icon, Avatar, Spin, Dropdown } from 'antd';
 import gql from 'graphql-tag';
 import firebase from 'firebase';
 
@@ -41,6 +41,19 @@ const getUser = (user) => {
     }
 };
 
+const menu = (currentUser) => (
+    <Menu>
+        <Menu.Item key="0">
+            <NavLink to={ `/profile/${ currentUser.uid }` }>Профиль</NavLink>
+        </Menu.Item>
+        <Menu.Item key="1">
+            <a href="http://www.taobao.com/">Настройки</a>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="3">Выход</Menu.Item>
+    </Menu>
+);
+
 const MainHeader = ({ collapsed, toggle }) => {
     return <Query query={ GET_USER }>
         {({ loading, error, data: { currentUser }, client }) => {
@@ -66,29 +79,24 @@ const MainHeader = ({ collapsed, toggle }) => {
                         style={{
                             position: 'relative',
                             display: 'flex',
+                            alignItems: 'center',
                             width: '240px',
                             height: '100%' 
                         }}>
                         { loading
                             ? <Spin size="large" />
                             : <Fragment>
-                                <NavLink 
-                                    to="/profile" 
-                                    style={{ 
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        color: '#fff'
-                                    }}>
-
-                                    <Avatar 
-                                        src={ currentUser.photoURL }
-                                        style={{ margin: '0 12px' }}>
-                                            { currentUser.displayName }
-                                    </Avatar>
-                                    
-                                    <div className="user-name">{ currentUser.displayName }</div>
-                                </NavLink>
+                                <Avatar 
+                                    src={ currentUser.photoURL }
+                                    style={{ margin: '0 12px' }}>
+                                        { currentUser.displayName }
+                                </Avatar>
+                                <Dropdown overlay={ menu(currentUser) } trigger={['click']}>
+                                    <div className="user-name" style={{ color: '#fff', cursor: 'pointer' }}>{ currentUser.displayName }</div>
+                                </Dropdown>
                             </Fragment> 
+                                
+                            
                         }
                     </div>
                     {/* <Icon

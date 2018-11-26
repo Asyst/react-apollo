@@ -28,6 +28,19 @@ class Profile extends Component {
         photoURL: ''
     };
 
+    componentDidMount() {
+        const { photoURL } = this.state;
+        const { data: { currentUser } } = this.props;
+
+        if (currentUser.uid && !photoURL) {
+            axios.get(`https://graph.facebook.com/v3.2/${currentUser.uid}/picture?type=large`)
+                .then(response => response.request.responseURL)
+                .then(photoURL => {
+                    this.setState({ photoURL });
+                })
+        }
+    }
+
     componentDidUpdate() {
         const { photoURL } = this.state;
         const { data: { currentUser } } = this.props;
@@ -46,6 +59,10 @@ class Profile extends Component {
         const { match, data: { currentUser } } = this.props;
 
         const crumbs = match.path.split('/');
+
+        const { userId } = match.params;
+
+        console.log('userId -> ', userId);
 
         return <Fragment>
             <Route path={ match.url } render={ () => (
@@ -77,7 +94,8 @@ class Profile extends Component {
                                 loading={ !photoURL }>
                                 <div>{ currentUser.displayName }</div>
                                 <div style={{ margin: '0 0 8px' }}>{ currentUser.email }</div>
-                                <Button type="primary" ghost>Follow</Button>
+
+                                { userId !== currentUser.uid && <Button type="primary" ghost>Follow</Button> }
                             </Skeleton>
 
                         </div>

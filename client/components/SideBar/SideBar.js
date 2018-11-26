@@ -8,11 +8,13 @@ const SideBar = ({ match, collapsed }) => {
     let selectedItem = typeof match !== 'undefined' ? match.url.substr(1) : selectedItem;
 
     return <Sider 
-        trigger={null}
-        breakpoint="lg"
+        // trigger={null}
+        breakpoint="md"
         collapsedWidth="0"
-        collapsible
-        collapsed={ collapsed }  
+        onBreakpoint={(broken) => { console.log(broken); }}
+        onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
+        // collapsible
+        // collapsed={ collapsed }  
         width={200} 
         style={{ padding: '18px 0 0', background: '#fff' }}>
         <Menu

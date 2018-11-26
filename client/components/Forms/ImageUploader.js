@@ -16,8 +16,6 @@ class ImageUploader extends Component {
           </div>
         );
 
-        console.log('previewVisible -> ', previewVisible);
-
         return (
             <div className="clearfix">
                 <Upload

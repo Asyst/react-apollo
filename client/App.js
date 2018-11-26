@@ -85,7 +85,7 @@ class App extends Component {
                         <Route exact path="/" render={ () => <Redirect to="/feed" /> } />
                         <Route path="/feed" component={ NewsFeed } />
                         <Route path="/users" component={ UsersList } />
-                        <Route path="/profile" component={ Profile } />
+                        {/* <Route path="/profile" component={ Profile } /> */}
                         <Route path="/profile/:userId" component={ Profile } />
                         <Route path="/add_post" component={ AddPost } />
                     </Switch>

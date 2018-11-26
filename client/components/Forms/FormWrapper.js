@@ -15,8 +15,6 @@ export default function FormWrapper(WrappedComponnet) {
             const name = e.target.getAttribute('name');
             const value = e.target.value;
 
-            console.log('handleInputChange -> ', e.target.value);
-
             this.setState(state => ({
                 ...state,
                 inputs: {
@@ -24,22 +22,34 @@ export default function FormWrapper(WrappedComponnet) {
                     [name]: value
                 }
             }));
-
-            // this.props.form.setFieldsValue({ [name]: e.target.value })
         }
 
-        handleCancel = () => this.setState({ uploader: { previewVisible: false } })
+        handleCancel = () => this.setState(state => ({
+            ...state,
+            uploader: {
+                ...state.uploader,
+                previewVisible: false 
+            } 
+        }))
 
         handlePreview = (file) => {
-            this.setState({
+            this.setState(state => ({
+                ...state,
                 uploader: {
+                    ...state.uploader,
                     previewImage: file.url || file.thumbUrl,
                     previewVisible: true,
                 }
-            });
+            }));
         }
 
-        handleChange = ({ fileList }) => this.setState({ uploader: { fileList } })
+        handleChange = ({ fileList }) => this.setState(state => ({
+            ...state,
+            uploader: {
+                ...state.uploader, 
+                fileList 
+            } 
+        }))
 
         render() {
             return <WrappedComponnet 
